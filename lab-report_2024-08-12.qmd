@@ -1,0 +1,254 @@
+---
+title: "Open Science.<br /> Challenge or threat?"
+subtitle: "lab report"
+title-slide-attributes:
+  data-background-image: www/title-bg2.jpg
+  data-background-size: cover
+  #data-background-opacity: "0.3"
+author: "<br /><br /><b>Jürgen Schneider</b><br />*Mareike Kunter*"
+date: today # "20. Mar 2024"
+date-format: "DD MMMM YYYY"
+format: 
+  revealjs:
+      theme: [white] # sky default
+      logo: www/dipf-logo.png
+      footer: "Slides: [link pending](#)"
+      smaller: true
+      scrollable: true
+      transition: fade
+      width: 1500
+      height: 850
+      hide-inactive-cursor: false
+      embed-resources: true
+editor: source
+editor_options: 
+  chunk_output_type: console
+bibliography: www/references.bib
+css: www/style.css
+csl: https://raw.githubusercontent.com/citation-style-language/styles/master/apa.csl
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      message=FALSE, 
+                      warning=FALSE)
+### DOWNLOAD NEWEST SOURCES
+## befindet sich im DIPF Ordner
+# download.file("https://drive.google.com/uc?export=download&id=1ASV99YHMHSNChSNzqbZwvz2SiqYvmqO_",
+#               "www/references.bib", overwrite = T)
+
+
+library(fontawesome)
+```
+
+## Development of Open Science
+
+
+\
+\
+\
+
+
+:::: {.columns}
+::: {.column width="47%"}
+Transparency and openness endorsed by **key players**
+
+* DFG (2015, 2019)
+* ERC (2022, 2023)
+* scientific societies (e.g., DGPs, 2021)
+* UNESCO (2022)
+
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="47%"}
+
+Met with an **increase** in the
+
+* perceived importance and benefits (Borycz et al., 2023; Ferguson et al., 2023)
+* implementation of open research practices (Cao et al., 2023; UNESCO, 2023)
+
+:::
+::::
+
+
+
+
+
+
+
+## Development of Open Science
+
+\
+\
+
+A the same time: Many researchers struggle.  
+\
+
+
+:::: {.columns}
+::: {.column width="47%"}
+Comparatively **low rate** of 
+
+* open data (2014-2017: 1%, 2018: 0.32%, 2020: 7.16%)
+* data analysis scripts (2014-2017: 1%)
+
+(Hardwicke et al., 2022; Huff & Bongartz, 2023)
+
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="47%"}
+Because researchers **lack resources** such as
+
+* adequate training
+* designated project funding
+* infrastructure for data openness
+
+(European Commission, 2023; Goodey et al., 2022; Houtkoop et al., 2018)
+
+:::
+::::
+
+
+
+## CAMCC model
+
+![](www/camcc1.jpg){.page-right-l}
+
+\
+\
+\
+
+Model for 
+
+* predicting **processing** and conceptual change 
+* (among other things) based on **available resources**.
+
+(Gregoire, 2003)
+
+
+::: notes
+:::
+
+
+## CAMCC model
+
+
+![](www/camcc2.jpg){.page-right-l}
+
+\
+\
+\
+
+Focusing on 
+
+* Resources
+* Challenge vs. threat appraisal
+* Processing depth
+
+(Gregoire, 2003)
+
+::: notes
+:::
+
+
+
+## Study
+
+### Methods
+
+\
+\
+
+* Observational (survey) study (power analysis: *N*=120 researchers)
+* Procedure
+   - **vignette** about the need for reproducible data analysis
+   - **measures** (resources, appraisal)
+   - information **text** on "how to reproducible data analysis"
+   - **measures** on cognitive and behavioral engagement
+
+Access the survey under [this link](https://c-t.formr.org).
+
+![](www/Fig1.jpg){.page-right-s}
+
+\
+\
+\
+
+
+
+
+::: notes
+:::
+
+## Study
+
+### Vignette (option 1)
+
+::: {.highlight-grey .bigger}
+
+Think of a current research project in which you are collecting and analyzing quantitative data. Now imagine that the research team assigns you the task of ensuring that your data and results are *computationally reproducible*.
+
+This means that you have to provide the data and analysis code in such a way that another researcher can use it and produce exactly the same results as you. Ideally, the other researcher will not have any additional costs (such as having to buy software) that exceed the internet costs of downloading your research materials. Ideally, you should also take into account that your analyses run on different system requirements (e.g., Windows, Mac) and software versions (e.g., older versions).
+
+:::
+
+## Study
+
+
+### Vignette (option 2) 
+adopted from ERC (2022) ["Open Research Data and Data Management Plans. Information for ERC grantees" (V4.1)](https://erc.europa.eu/sites/default/files/document/file/ERC_info_document-Open_Research_Data_and_Data_Management_Plans.pdf)  
+\
+
+::: {.highlight-grey}
+Imagine you are planning to submit a study to a research funder on the relationship between students' self-directed learning strategies and their academic performance. A survey with quantitative measures will be administered to a sample of university students, collecting data on their use of specific learning strategies, corresponding academic outcomes and demographic variables.  
+  
+The information for grantees from the research funder states that the data analyses should be *computationally reproducible*.  
+"Grantees should allow other scientists to make an assessment, to attempt to reproduce the conclusions derived from the dataset, and potentially reuse the data for further research."  
+  
+This means that you should provide the data and analysis code in such a way that other researchers can use it and produce exactly the same results as you. [Ideally, the other researcher will not have any additional costs (such as having to buy software) that exceed the internet costs of downloading your research materials.] [Ideally, you should also take into account that your analyses run on different system requirements (e.g., Windows, Mac) and software versions (e.g., older versions)].
+:::
+
+\
+
+*The sentences in [square brackets] will be added cumulatively in two further conditions.*
+
+
+
+
+## Questions 
+
+* General feedback
+* Abstract vs. fine grained items on "resources"?
+   - e.g. abstract: "I know the necessary steps to make my analyses reproducible."
+   - e.g. abstract: "The working conditions are such that it is possible to share data analyses in a reproducible manner."
+   - e.g. fine grained: "I know where I can make my data and analyses available so that other researchers have open access to them."
+   - e.g. fine grained: "I have the feeling that providing reproducible data analyses is currently rewarded in the research community."<br /><br />
+* Measure for *engagement* when reading text?
+
+
+# Thank you
+
+![](www/dipf-logo.png){width="20%"}\
+\
+
+**Jürgen Schneider**\
+[ju.schneider\@dipf.de](mailto:ju.schneider@dipf.de){.email}
+
+## References
+
+::: {#refs}
+:::
+
+## Credit
+
+Title page 
+  
+Icons by Font Awesome CC BY 4.0
+
+
