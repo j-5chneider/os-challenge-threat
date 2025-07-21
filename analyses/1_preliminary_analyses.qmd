@@ -1,0 +1,160 @@
+---
+title: "Preliminary analyses for reliabilities"
+subtitle: ""
+author:
+  - name: "Jürgen Schneider"
+    email: "ju.schneider@dipf.de"
+    affiliation: "DIPF"
+    correspondence: true
+date: "`r Sys.Date()`" # inserts the date of compiling
+editor: source
+execute:
+  echo: true
+  warning: false
+  message: false
+  cache: false # true will prevent embed-resources
+format: 
+  html:
+    theme: ceruleanc
+    number-sections: true
+    fontsize: 0.85em
+    toc: true
+    toc-location: left
+    toc-depth: 3
+    embed-resources: true # will make standalone html file
+    code-fold: true
+    code-tools: true
+    code-link: true
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r packages}
+#| echo: false
+library(formr)
+```
+
+
+```{r import and wrangle}
+# retreive credentials and login to formr
+# sorry guys, this only works on my computer
+formr_connect(keyring = "juergen") 
+
+preliminary_results <- formr_results("challenge_threat") %>% # pulls survey results
+  dplyr::mutate(# PERSONAL RESOURCES
+                resource_person_eos = rowMeans(data.frame(resource_person_eos_1, # Expectancy of Success
+                                                          resource_person_eos_2,
+                                                          resource_person_eos_3,
+                                                          7-resource_person_eos_4, # reverse item
+                                                          resource_person_eos_5,
+                                                          resource_person_eos_6),
+                                               na.rm = TRUE),
+                resource_person_av = rowMeans(data.frame(resource_person_av_1, # Attainment value
+                                                         resource_person_av_2,
+                                                         resource_person_av_3,
+                                                         resource_person_av_4,
+                                                         resource_person_av_5),
+                                               na.rm = TRUE),
+                resource_person_te = rowMeans(data.frame(resource_person_te_1, # task effort cost
+                                                         resource_person_te_2,
+                                                         resource_person_te_3,
+                                                         resource_person_te_4,
+                                                         resource_person_te_5),
+                                               na.rm = TRUE),
+                resource_person_oe = rowMeans(data.frame(resource_person_oe_1, # outside effort cost
+                                                         resource_person_oe_2,
+                                                         resource_person_oe_3,
+                                                         resource_person_oe_4),
+                                               na.rm = TRUE),
+                resource_person_va = rowMeans(data.frame(resource_person_va_1, # Loss of valued alternatives
+                                                         resource_person_va_2,
+                                                         resource_person_va_3,
+                                                         resource_person_va_4),
+                                               na.rm = TRUE),
+                # INFRASTRUCTURAL RESOURCES
+                resource_instit_bns = rowMeans(data.frame(resource_instit_bns_1, # basic need satisfaction
+                                                          resource_instit_bns_3, # competence support
+                                                          resource_instit_bns_3),
+                                               na.rm = TRUE),
+                # IMPLICATES SELF
+                implicates_self = rowMeans(data.frame(implicates_self_1, # Implicates self
+                                                      implicates_self_2,
+                                                      implicates_self_3,
+                                                      implicates_self_4),
+                                           na.rm = TRUE),
+                # APPRAISAL
+                challenge = rowMeans(data.frame(challenge_1, # challenge appraisal
+                                                challenge_2,
+                                                challenge_3,
+                                                challenge_4),
+                                     na.rm = TRUE),
+                threat = rowMeans(data.frame(threat_1, # therat
+                                             threat_2,
+                                             threat_3),
+                                  na.rm = TRUE),
+                # ENGAGEMENT
+                engage_cognitive = rowMeans(data.frame(7-engage_cognitive_1, # Attainment value
+                                                       engage_cognitive_2,
+                                                       engage_cognitive_3,
+                                                       7-engage_cognitive_4,
+                                                       engage_cognitive_5,
+                                                       7-engage_cognitive_6,
+                                                       engage_cognitive_7,
+                                                       7-engage_cognitive_8,
+                                                       7-engage_cognitive_9,
+                                                       engage_cognitive_10),
+                                               na.rm = TRUE))
+
+```
+
+
+```{r}
+
+preliminary_results_omega <- preliminary_results %>%
+  dplyr::mutate(engage_cognitive_1 = 7-engage_cognitive_1,
+                engage_cognitive_4 = 7-engage_cognitive_4,
+                engage_cognitive_6 = 7-engage_cognitive_6,
+                engage_cognitive_8 = 7-engage_cognitive_8,
+                engage_cognitive_9 = 7-engage_cognitive_9)
+
+psych::omega(preliminary_results_omega %>% 
+               dplyr::select(engage_cognitive_1,
+                             engage_cognitive_2,
+                             engage_cognitive_3,
+                             engage_cognitive_4,
+                             engage_cognitive_5,
+                             engage_cognitive_6,
+                             engage_cognitive_7,
+                             engage_cognitive_8,
+                             engage_cognitive_9,
+                             engage_cognitive_10),
+             factors=1) 
+
+```
+
+
+```{r}
+library(corrplot)
+M <- cor(preliminary_results_omega %>% dplyr::select(resource_person_eos,
+                                                     resource_person_av,
+                                                     resource_person_te,
+                                                     resource_person_oe,
+                                                     resource_person_va,
+                                                     resource_instit_bns,
+                                                     implicates_self,
+                                                     challenge,
+                                                     threat,
+                                                     engage_cognitive,
+                                                     # engage_choice,
+                                                     engage_behavior
+                                                     ),
+         use = "pairwise.complete.obs")
+corrplot.mixed(M, order = 'AOE')
+```
+
+
+* resource_person_eos ✓
+* ~resource_person_av~
+* ~resource_person_te~
+* ~resource_person_oe~
+* resource_person_va ✓
