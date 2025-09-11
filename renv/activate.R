@@ -708,7 +708,7 @@ local({
   
     for (placeholder in placeholders)
       version <- gsub(placeholder[[1L]], placeholder[[2L]], version, fixed = TRUE)
-  
+
     # include SVN revision for development versions of R
     # (to avoid sharing platform-specific artefacts with released versions of R)
     devel <-
@@ -729,7 +729,7 @@ local({
   
     # build list of path components
     components <- c(version, R.version$platform)
-  
+
     # include prefix if provided by user
     prefix <- renv_bootstrap_platform_prefix_impl()
     if (!is.na(prefix) && nzchar(prefix))
@@ -967,7 +967,7 @@ local({
   }
   
   renv_bootstrap_validate_version_dev <- function(version, description) {
-  
+
     expected <- description[["RemoteSha"]]
     if (!is.character(expected))
       return(FALSE)
@@ -1158,7 +1158,7 @@ local({
   }
   
   renv_bootstrap_run <- function(project, libpath, version) {
-  
+
     # perform bootstrap
     bootstrap(version, libpath)
   

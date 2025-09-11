@@ -68,7 +68,6 @@ codebook_data$resourceInfra <- codebook_data %>%
   dplyr::select(contains("resourceInfra")) %>% 
   aggregate_and_document_scale()
 
-
 codebook_data <- detect_scales(codebook_data)
 ```
 
