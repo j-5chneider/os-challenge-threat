@@ -1,0 +1,154 @@
+---
+title: "Extract sample from WoS"
+subtitle: ""
+author:
+  - name: "Jürgen Schneider"
+    email: "ju.schneider@dipf.de"
+    affiliation: "DIPF"
+    correspondence: true
+date: "`r Sys.Date()`" # inserts the date of compiling
+editor: source
+execute:
+  echo: true
+  warning: false
+  message: false
+  cache: false # true will prevent embed-resources
+format: 
+  html:
+    theme: ceruleanc
+    number-sections: true
+    fontsize: 0.85em
+    toc: true
+    toc-location: left
+    toc-depth: 3
+    embed-resources: true # will make standalone html file
+    code-fold: true
+    code-tools: true
+    code-link: true
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r packages}
+#| echo: false
+library(rio)
+library(tidyverse)
+library(here)
+library(janitor)
+```
+
+## Import and wrangle
+
+```{r import and wrangle}
+
+# 1. Pfad zum Ordner (z.B. relativ im Projektordner)
+data_folder <- here("data/WoS_exports/")
+
+# 2. Alle .csv-Dateien im Ordner auflisten
+file_list <- list.files(path = data_folder, pattern = "\\.xls$", full.names = TRUE)
+
+# 3. Alle einlesen und zusammenfügen
+dfs <- map(file_list, ~ {
+  import(.x) %>%
+    clean_names() %>%
+    dplyr::select(any_of(c(
+      "author_full_names", "article_title", "source_title",
+      "author_keywords", "keywords_plus", "abstract",
+      "email_addresses")))
+  # df[columns_to_keep]
+})
+
+combined_data <- list_rbind(dfs)
+```
+
+## Search for keywords
+
+### The keywords
+
+```{r}
+statistics <- c(
+  "ANOVA",
+  "t-test",
+  "regression",
+  "correlation",
+  "correlate",
+  "Cohen's",
+  "p <",
+  "p =",
+  "p-value",
+  "standard deviation",
+  "confidence interval",
+  "effect size",
+  "odds ratio",
+  "chi-square",
+  "factor analysis",
+  "path analysis",
+  "latent variable",
+  "structural equation model",
+  "SEM",
+  "multivariate",
+  "mediation analysis",
+  "moderation analysis")
+
+measurement <- c(
+  "sample size",
+  "n =",
+  "reliability",
+  "Cronbach's",
+  "internal consistency",
+  "McDonald's",
+  "measurement model",
+  "item response",
+  "Likert",
+  "rating scale",
+  "numeric scale")
+
+software <- c(
+  "SPSS",
+  "RStudio",
+  " R ",
+  "Mplus",
+  "Stata",
+  "AMOS",
+  "Matlab")
+
+design <- c(
+  "randomized controlled trial",
+  "RCT",
+  "pretest–posttest",
+  "control group",
+  "treatment group",
+  "correlational")
+```
+
+### The search
+
+```{r}
+# 1. Vektoren zusammenführen
+keywords <- c(statistics, measurement, software, design)
+
+# 2. Regex bauen – ignoriert Groß-/Kleinschreibung
+pattern <- str_c(keywords, collapse = "|")
+
+# 3. `quant`-Spalte berechnen
+combined_data <- combined_data %>%
+  mutate(
+    quant = if_else(
+      replace_na(str_detect(article_title, regex(pattern, ignore_case = TRUE)), FALSE) |
+      replace_na(str_detect(author_keywords, regex(pattern, ignore_case = TRUE)), FALSE) |
+      replace_na(str_detect(keywords_plus, regex(pattern, ignore_case = TRUE)), FALSE) |
+      replace_na(str_detect(abstract, regex(pattern, ignore_case = TRUE)), FALSE),
+      1, 0
+    )
+  )
+```
+
+## Draw sample
+
+```{r}
+sampled_data <- combined_data %>%
+  dplyr::filter(quant == 1 & !is.na(email_addresses)) %>%
+  slice_sample(n = 2000) %>%
+  dplyr::mutate(email_first = str_extract(email_addresses, "^[^;]+"))
+```
+

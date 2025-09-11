@@ -1,0 +1,80 @@
+---
+title: "Codebook Pilot 2"
+output:
+  html_document:
+    toc: true
+    toc_depth: 4
+    toc_float: true
+    code_folding: 'hide'
+    self_contained: true
+  pdf_document:
+    toc: yes
+    toc_depth: 4
+    latex_engine: xelatex
+---
+
+Here, we're just setting a few options.
+
+```{r setup}
+knitr::opts_chunk$set(
+  warning = FALSE, # show warnings during codebook generation
+  message = FALSE, # show messages during codebook generation
+  error = FALSE, # do not interrupt codebook generation in case of errors,
+                # usually better for debugging
+  echo = TRUE  # show R code
+)
+ggplot2::theme_set(ggplot2::theme_bw())
+
+```
+
+
+```{r prepare_codebook}
+library(codebook)
+library(here)
+library(dplyr)
+
+
+codebook_data <- rio::import(here("data/pilot2_data.sav"))%>%
+  dplyr::select(id:donation) %>%
+  dplyr::mutate(resourcePerson_va = rowMeans(across(matches("resourcePerson_va")), 
+                                             na.rm = TRUE),
+                resourcePerson_eos = rowMeans(across(matches("resourcePerson_eos")), 
+                                             na.rm = TRUE),
+                resourceInfra = rowMeans(across(matches("resourceInfra")), 
+                                         na.rm = TRUE),
+                implicates_self = rowMeans(across(matches("implicates_self")), 
+                                           na.rm = TRUE),
+                challenge = rowMeans(across(matches("challenge")), 
+                                     na.rm = TRUE),
+                threat = rowMeans(across(matches("threat")), 
+                                  na.rm = TRUE),
+                engage_cognitive = rowMeans(across(matches("engage_cognitive")), 
+                                            na.rm = TRUE))
+
+
+reverse_coded_items <- c("resourcePerson_eos4",
+                         "engage_cognitive01",
+                         "engage_cognitive04",
+                         "engage_cognitive06",
+                         "engage_cognitive08",
+                         "engage_cognitive09")
+
+codebook_data <- codebook_data %>% 
+  rename_with(.fn = add_R, .cols = reverse_coded_items) %>% 
+  mutate(across(dplyr::matches("\\dR$"), reverse_labelled_values))
+
+
+codebook_data$resourceInfra <- codebook_data %>% 
+  dplyr::select(contains("resourceInfra")) %>% 
+  aggregate_and_document_scale()
+
+
+codebook_data <- detect_scales(codebook_data)
+```
+
+
+Create codebook
+
+```{r codebook}
+codebook(codebook_data)
+```
