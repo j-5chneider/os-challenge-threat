@@ -59,6 +59,7 @@ dfs <- map(file_list, ~ {
 })
 
 combined_data <- list_rbind(dfs)
+rm(dfs)
 ```
 
 ## Search for keywords
@@ -85,14 +86,12 @@ statistics <- c(
   "path analysis",
   "latent variable",
   "structural equation model",
-  "SEM",
+  " SEM ",
   "multivariate",
   "mediation analysis",
   "moderation analysis")
 
 measurement <- c(
-  "sample size",
-  "n =",
   "reliability",
   "Cronbach's",
   "internal consistency",
@@ -143,12 +142,53 @@ combined_data <- combined_data %>%
   )
 ```
 
-## Draw sample
+## Draw sample first batch
 
 ```{r}
-sampled_data <- combined_data %>%
-  dplyr::filter(quant == 1 & !is.na(email_addresses)) %>%
-  slice_sample(n = 2000) %>%
-  dplyr::mutate(email_first = str_extract(email_addresses, "^[^;]+"))
+sampled_data_b1 <- combined_data %>%
+  dplyr::filter(quant == 1 &  # draw only from publications that indicate quantitative research
+                !is.na(email_addresses) & 
+                !is.na(article_title) & 
+                !is.na(author_full_names)
+                ) %>%
+  slice_sample(n = 1550) %>%   # draw 10 times our needed N
+  dplyr::mutate(
+    firstname = paste(str_extract(author_full_names, "^[^,]+,\\s*([^;]+)",
+                                  group = 1),
+                      str_extract(author_full_names, "^[^,]+")),
+    lastname = "see firstname",
+    email = str_extract(email_addresses, "^[^;]+"), # get email of first author
+    attribute_1 = article_title,
+    sample_batch = 1) %>%
+  dplyr::select(firstname, lastname, email, attribute_1, sample_batch)
+
+rio::export(sampled_data_b1, here("data/sampled_data_batch1.csv"))
+```
+
+
+## Draw sample second batch
+
+```{r}
+sampled_data_b1 <- rio::import(here("data/sampled_data_batch1.csv"))
+
+sampled_data_b2 <- combined_data %>%
+  dplyr::filter(quant == 1 &  # draw only from publications that indicate quantitative research
+                !is.na(email_addresses) & 
+                !is.na(article_title) & 
+                !is.na(author_full_names) &
+                !(str_extract(email_addresses, "^[^;]+") %in% sampled_data_b1$email) # exclude emails that were in the first batch
+                ) %>%
+  slice_sample(n = 3100) %>%
+  dplyr::mutate(
+    firstname = paste(str_extract(author_full_names, "^[^,]+,\\s*([^;]+)",
+                                  group = 1),
+                      str_extract(author_full_names, "^[^,]+")),
+    lastname = "see firstname",
+    email = str_extract(email_addresses, "^[^;]+"), # get email of first author
+    attribute_1 = article_title,
+    sample_batch = 2) %>%
+  dplyr::select(firstname, lastname, email, attribute_1, sample_batch)
+
+rio::export(sampled_data_b2, here("data/sampled_data_batch2.csv"))
 ```
 
