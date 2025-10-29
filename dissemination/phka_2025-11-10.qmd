@@ -1,0 +1,1314 @@
+---
+title: "Open Science.<br /> Challenge or threat?"
+subtitle: "Wie Forschende Reformbotschaften auf Grundlage verfügbarer Ressourcen bewerten"
+title-slide-attributes:
+  data-background-image: www/title-bg1.jpg
+  data-background-size: cover
+  #data-background-opacity: "0.3"
+author: "<br /><br /><b>Jürgen Schneider</b><br />*Mareike Kunter*"
+date: today # "20. Mar 2024"
+date-format: "DD MMMM YYYY"
+format: 
+  revealjs:
+      theme: [white] # sky default
+      logo: www/dipf-logo.png
+      footer: "Slides: [link pending](#)"
+      smaller: true
+      scrollable: true
+      transition: fade
+      width: 1500
+      height: 850
+      hide-inactive-cursor: false
+      embed-resources: true
+editor: source
+editor_options: 
+  chunk_output_type: console
+bibliography: www/references.bib
+css: www/style.css
+csl: www/apa7
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      message=FALSE, 
+                      warning=FALSE,
+                      eval = FALSE)
+### DOWNLOAD NEWEST SOURCES
+## befindet sich im DIPF Ordner
+# download.file("https://drive.google.com/uc?export=download&id=1ASV99YHMHSNChSNzqbZwvz2SiqYvmqO_",
+#               "www/references.bib", overwrite = T)
+
+library(kableExtra)
+library(fontawesome)
+library(tidyverse)
+library(ggpubr)
+library(maps)
+library(countrycode)
+
+library(rio)
+library(here)
+library(brms)
+library(BayesFactor)
+```
+
+
+## Entwicklung von Open Science
+
+
+\
+\
+
+
+:::: {.columns}
+::: {.column width="49%"}
+Transparenz und Offenheit von **zentralen Stakeholdern** unterstützt
+
+* Forschungsförderer [@dfg.2015a; @dfg.2019a; @erc.2022; @erc.2023]
+* Fachgesellschaften [@dgps.2021; @dgfe.2020a]
+* Politische Organisationen [@unesco.2022; @europeancommission.2016a; @europeancommission.2017d; @europeancommission.2018a]
+
+:::
+
+::: {.column width="3%"}
+:::
+
+::: {.column width="47%"}
+:::
+::::
+
+
+## Entwicklung von Open Science
+
+
+\
+\
+
+
+:::: {.columns}
+::: {.column width="47%"}
+Transparenz und Offenheit von **zentralen Stakeholdern** unterstützt
+
+* Forschungsförderer [@dfg.2015a; @dfg.2019a; @erc.2022; @erc.2023]
+* Fachgesellschaften [@dgps.2021; @dgfe.2020a]
+* Politische Organisationen [@unesco.2022; @europeancommission.2016a; @europeancommission.2017d; @europeancommission.2018a]
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="47%"}
+
+__Top-Down-Policies, z.B. Empfehlungen GEBF & AEPF__    
+  
+_"Forschende stellen Materialien zur Vorgehensweise der Datenauswertung **reproduzierbar** (sofern möglich) und leicht zugänglich bereit, um die Nachvollziehbarkeit, Replizierbarkeit und Weiterverwendung von Ergebnissen zu erleichtern."_
+  
+\
+
+__European Research Council__  
+*Grantees should describe the protocols used to structure their data and indicate the metadata standards applied. This will allow other scientists to make an assessment, to attempt to __reproduce the conclusions derived from the dataset__ [...] and potentially reuse the data for further research.* [@erc.2022, S. 5]
+:::
+::::
+
+
+## Theorie
+
+
+:::: {.columns}
+::: {.column width="55%"}
+
+\
+
+* ~3,2 % der Forschenden teilen ihren code [@krahmer.2023]<br /><br /><br />
+* Interindividuelle Unterschiede:
+  - Einerseits: Anstieg der wahrgenommenen Bedeutsamkeit und Vorteile, sowie Zunahme von Open Science Praktiken [@borycz.2023;@ferguson.2023; @cao.2023, @unesco.2023]
+  - Andererseits: Open Science policy alienation [@lilja.2021]<br /><br /><br />
+
+
+
+:::
+::::
+
+:::{.notes}
+
+* Bedeutet für einige Forschende eine Veränderung ihrerer bisherigen Praxis
+* CAMCC
+  - Ob und wie Forschende mit Open Science-Botschaften engagen, hängt von der Bewertung der Botschaft ab
+  - betrachtet neben einer kognitiven auch eine affektive Komponente
+  
+:::
+
+## Theorie
+
+![](www/Fig1_0.png){.page-right-l}
+
+:::: {.columns}
+::: {.column width="55%"}
+
+\
+\
+
+* ~3,2 % der Forschenden teilen ihren code [@krahmer.2023]<br /><br /><br />
+* Interindividuelle Unterschiede:
+  - Einerseits: Anstieg der wahrgenommenen Bedeutsamkeit und Vorteile, sowie Zunahme von Open Science Praktiken [@borycz.2023;@ferguson.2023; @cao.2023, @unesco.2023]
+  - Andererseits: Open Science policy alienation [@lilja.2021]<br /><br /><br />
+* CAMCC: Interindividuelle Unterschiede im Umgang mit "reform messages" aus einer pädagogisch-psychologischen Perspektive [@gregoire.2003]
+
+:::
+::::
+
+## Theorie
+#### CAMCC
+
+![](www/Fig1_0.png){.page-right-l}
+
+:::: {.columns}
+::: {.column width="55%"}
+
+\
+
+* "reform messages" werden vor dem Hintergrund verfügbarer Ressourcen bewertet<br /><br /><br />
+* als (positive) challenge oder als threat<br /><br /><br /><br /><br /><br /><br /><br />
+* diese Bewertung bedingt dann die Verarbeitung des Themas
+
+:::
+::::
+
+## Fragestellungen
+#### Beim Thema Transparenz in der Datenanalyse
+
+![](www/Fig1_2.png){.page-right-l}
+
+:::: {.columns}
+::: {.column width="50%"}
+
+\
+
+1. Inwiefern hängt die Wahrnehmung **verfügbarer Ressourcen** mit dem Empfinden der Anforderung als **Bedrohung** zusammen?
+
+:::
+::::
+
+
+
+## Fragestellungen
+#### Beim Thema Transparenz in der Datenanalyse
+
+![](www/Fig1_3.png){.page-right-l}
+
+:::: {.columns}
+::: {.column width="50%"}
+
+\
+
+1. Inwiefern hängt die Wahrnehmung **verfügbarer Ressourcen** mit dem Empfinden der Anforderung als **Bedrohung** zusammen?<br /><br />
+2. Inwiefern hängt die Wahrnehmung **verfügbarer Ressourcen** mit dem Empfinden der Anforderung als **Herausforderung** zusammen?
+
+:::
+::::
+
+
+## Fragestellungen
+#### Beim Thema Transparenz in der Datenanalyse
+
+![](www/Fig1_4.png){.page-right-l}
+
+:::: {.columns}
+::: {.column width="50%"}
+
+\
+
+1. Inwiefern hängt die Wahrnehmung **verfügbarer Ressourcen** mit dem Empfinden der Anforderung als **Bedrohung** zusammen?<br /><br />
+2. Inwiefern hängt die Wahrnehmung **verfügbarer Ressourcen** mit dem Empfinden der Anforderung als **Herausforderung** zusammen?<br /><br />
+3. Hängen **Bedrohungsbewertungen** und **Herausforderungsbewertungen** mit **kognitiven Engagement** mit dem Thema zusammen?
+
+:::
+::::
+
+
+
+## Methode
+#### Stichprobe
+
+:::: {.columns}
+::: {.column width="49%"}
+
+**_N_ = 155 Forschende** _(a priori Power-Analyse: 90% Power)_
+
+* mit einer quantitativ-empirischen Publikation 
+* in der Bildungsforschung 
+* in 2024 
+* als Corresponding Author
+
+:::
+::: {.column width="49%"}
+
+**Alter:** _M_ = 43.01 Jahre (_SD_ = 10,69)  
+**40 Länder** vertreten; häufigste: 
+
+* Deutschland (*n* = 19)
+* USA (*n* = 16)
+* Türkei (*n* = 11)
+
+:::
+::::
+
+```{r}
+#| eval: true
+
+data <- rio::import(here("data/main_study_data.csv")) %>%
+  dplyr::filter(!is.na(submitdate)) %>%
+  rename_with(~ gsub("\\[(\\w+)\\]$", "_\\1", .x))
+
+data_geschl <- data %>%
+  group_by(gender) %>%
+  dplyr::summarize(count = length(gender)) %>%
+  dplyr::mutate(lab.ypos = c(116, 41, 1),
+                gender = factor(gender,
+                                levels = c("f", "m", "nb"),
+                                labels = c("weiblich", "männlich", "non-binär")))
+
+p1 <- ggplot(data_geschl, aes(x = 2, y = count, fill = gender)) +
+  geom_bar(stat = "identity", color = "white") +
+  coord_polar(theta = "y", start = 0) +
+  geom_text(aes(y = lab.ypos, x = 1.3, label = count), 
+            color = "black", size = 6) +
+  scale_fill_viridis_d(option = "C",
+                       guide = guide_legend(reverse = TRUE),
+                       name = NULL) +
+  theme_void() +
+  xlim(0.5, 2.5) +
+  theme(plot.margin =  margin(0,0,0,0),
+        text = element_text(size = 20),
+        )
+
+data_career <- data %>%
+  dplyr::mutate(careerStage_coded = case_when(
+                                      careerStage == 1 ~ "Doktorand:in",
+                                      careerStage == 2 ~ "Post-Doc",
+                                      careerStage > 2 & careerStage < 6 ~ "Professor:in",
+                                      careerStage > 5 ~ "Andere"
+  )) %>%
+  group_by(careerStage_coded) %>%
+  dplyr::summarize(count = length(careerStage_coded)) %>%
+  dplyr::mutate(lab.ypos = c(150, 14, 40, 90),
+                careerStage_coded = factor(careerStage_coded,
+                                levels = c("Andere", "Professor:in", "Post-Doc", "Doktorand:in")))
+
+p2 <- ggplot(data_career, aes(x = 2, y = count, fill = careerStage_coded)) +
+  geom_bar(stat = "identity", color = "white") +
+  coord_polar(theta = "y", start = 0)+
+  geom_text(aes(y = lab.ypos, x = 1.3, label = count), 
+            color = "black", size = 6)+
+  scale_fill_viridis_d(option = "C",
+                       guide = guide_legend(reverse = TRUE),
+                       name = NULL) +
+  theme_void() +
+  xlim(0.5, 2.5) +
+  theme(plot.margin =  margin(0,0,0,0),
+        text = element_text(size = 20),
+        )
+```
+
+
+```{r}
+#| eval: true
+#| fig-height: 4
+#| fig-width: 12
+#| out-width: "100%"
+
+ggarrange(p1, p2,
+          align = "hv")
+```
+
+
+## Methode
+
+:::: {.columns}
+::: {.column width="49%"}
+
+#### Design
+
+* Querschnittliches Beobachtungsdesign
+* Präregistriert (<https://doi.org/10.17605/OSF.IO/UH8AE>)
+
+\
+
+#### Ablauf
+
+* Szenario ("reform message")
+
+:::
+::: {.column width="49%"}
+
+<div class="image-container">
+<img src="www/Fig1_1.png" />
+
+
+<div class="tooltip-area area-1">
+<div class="tooltip">I am usually sure to achieve computationally reproducible results when I try hard.</div>
+</div>
+
+<div class="tooltip-area area-2">
+<div class="tooltip">I have to sacrifice too much to ensure computational reproducibility in my work.</div>
+</div>
+
+<div class="tooltip-area area-3">
+<div class="tooltip">How often have you documented and provided the data as well as data analysis in such a way that other researchers can understand and follow the steps to obtain exactly the same results as you?</div>
+</div>
+
+
+<div class="tooltip-area area-4">
+<div class="tooltip">My institution regularly offers training opportunities related to computational reproducibility.</div>
+</div>
+
+
+<div class="tooltip-area area-5">
+<div class="tooltip">I would like to learn something new about computational reproducibility.</div>
+</div>
+
+
+<div class="tooltip-area area-6">
+<div class="tooltip">I'm worried about whether I will understand the content of the text.</div>
+</div>
+
+
+<div class="tooltip-area area-7">
+<div class="tooltip">I must confess that I did not read some passages with great concentration.</div>
+</div>
+
+</div>
+
+:::
+::::
+
+
+
+## Methode
+\
+\
+
+__Consider the following scenario__
+
+:::{.box-grey}
+Imagine you are applying for a grant from a research funder to conduct a study on the relationship between students’ self-regulated learning strategies and their academic performance. You plan to administer a survey with quantitative measures to a sample of university students, collecting data on their use of specific learning strategies, related academic outcomes, and demographic characteristics.  
+  
+The funder's information for grantees states that the data analyses should be *computationally reproducible*.   
+*"Grantees should allow other scientists to make an assessment, to attempt to reproduce the conclusions derived from the dataset, and potentially reuse the data for further research."*  
+  
+This means that you should document and provide the data as well as data analysis in such a way that other researchers can understand and follow the steps to obtain exactly the same results as you. Ideally, the other researcher will not have any additional costs (such as having to buy software) that exceed the internet costs of downloading your research materials.
+:::
+  
+
+## Methode
+
+:::: {.columns}
+::: {.column width="49%"}
+
+#### Design
+
+* Querschnittliches Beobachtungsdesign
+* Präregistriert (<https://doi.org/10.17605/OSF.IO/UH8AE>)
+
+\
+
+#### Ablauf
+
+* Szenario ("reform message")
+* Measures
+  - Expectancy of Success ($\omega$ = .81)
+  - Loss of Valued Alterntives ($\omega$ = .82)
+  - Experience
+  - Infrastruktursupport ($\omega$ = .91)
+  - Challenge Appraisal ($\omega$ = .86)
+  - Threat Appraisal ($\omega$ = .83)
+  
+:::
+::: {.column width="49%"}
+
+<div class="image-container">
+<img src="www/Fig1_1.png" />
+
+
+<div class="tooltip-area area-1">
+<div class="tooltip">I am usually sure to achieve computationally reproducible results when I try hard.</div>
+</div>
+
+<div class="tooltip-area area-2">
+<div class="tooltip">I have to sacrifice too much to ensure computational reproducibility in my work.</div>
+</div>
+
+<div class="tooltip-area area-3">
+<div class="tooltip">How often have you documented and provided the data as well as data analysis in such a way that other researchers can understand and follow the steps to obtain exactly the same results as you?</div>
+</div>
+
+
+<div class="tooltip-area area-4">
+<div class="tooltip">My institution regularly offers training opportunities related to computational reproducibility.</div>
+</div>
+
+
+<div class="tooltip-area area-5">
+<div class="tooltip">I would like to learn something new about computational reproducibility.</div>
+</div>
+
+
+<div class="tooltip-area area-6">
+<div class="tooltip">I'm worried about whether I will understand the content of the text.</div>
+</div>
+
+
+<div class="tooltip-area area-7">
+<div class="tooltip">I must confess that I did not read some passages with great concentration.</div>
+</div>
+
+</div>
+
+:::
+::::
+
+
+## Methode
+
+:::: {.columns}
+::: {.column width="49%"}
+
+#### Design
+
+* Querschnittliches Beobachtungsdesign
+* Präregistriert (<https://doi.org/10.17605/OSF.IO/UH8AE>)
+
+\
+
+#### Ablauf
+
+* Szenario ("reform message")
+* Measures
+* Informationstext zu Reproduzierbarkeit
+  
+:::
+::: {.column width="49%"}
+
+<div class="image-container">
+<img src="www/Fig1_1.png" />
+
+
+<div class="tooltip-area area-1">
+<div class="tooltip">I am usually sure to achieve computationally reproducible results when I try hard.</div>
+</div>
+
+<div class="tooltip-area area-2">
+<div class="tooltip">I have to sacrifice too much to ensure computational reproducibility in my work.</div>
+</div>
+
+<div class="tooltip-area area-3">
+<div class="tooltip">How often have you documented and provided the data as well as data analysis in such a way that other researchers can understand and follow the steps to obtain exactly the same results as you?</div>
+</div>
+
+
+<div class="tooltip-area area-4">
+<div class="tooltip">My institution regularly offers training opportunities related to computational reproducibility.</div>
+</div>
+
+
+<div class="tooltip-area area-5">
+<div class="tooltip">I would like to learn something new about computational reproducibility.</div>
+</div>
+
+
+<div class="tooltip-area area-6">
+<div class="tooltip">I'm worried about whether I will understand the content of the text.</div>
+</div>
+
+
+<div class="tooltip-area area-7">
+<div class="tooltip">I must confess that I did not read some passages with great concentration.</div>
+</div>
+
+</div>
+
+:::
+::::
+
+
+
+## Methode
+
+:::: {.columns}
+::: {.column width="49%"}
+
+#### Design
+
+* Querschnittliches Beobachtungsdesign
+* Präregistriert (<https://doi.org/10.17605/OSF.IO/UH8AE>)
+
+\
+
+#### Ablauf
+
+* Szenario ("reform message")
+* Measures
+* Informationstext zu Reproduzierbarkeit
+* Measures
+  - Cognitive (Reading) Engagement ($\omega$ = .70)
+  
+:::
+::: {.column width="49%"}
+
+<div class="image-container">
+<img src="www/Fig1_1.png" />
+
+
+<div class="tooltip-area area-1">
+<div class="tooltip">I am usually sure to achieve computationally reproducible results when I try hard.</div>
+</div>
+
+<div class="tooltip-area area-2">
+<div class="tooltip">I have to sacrifice too much to ensure computational reproducibility in my work.</div>
+</div>
+
+<div class="tooltip-area area-3">
+<div class="tooltip">How often have you documented and provided the data as well as data analysis in such a way that other researchers can understand and follow the steps to obtain exactly the same results as you?</div>
+</div>
+
+
+<div class="tooltip-area area-4">
+<div class="tooltip">My institution regularly offers training opportunities related to computational reproducibility.</div>
+</div>
+
+
+<div class="tooltip-area area-5">
+<div class="tooltip">I would like to learn something new about computational reproducibility.</div>
+</div>
+
+
+<div class="tooltip-area area-6">
+<div class="tooltip">I'm worried about whether I will understand the content of the text.</div>
+</div>
+
+
+<div class="tooltip-area area-7">
+<div class="tooltip">I must confess that I did not read some passages with great concentration.</div>
+</div>
+
+</div>
+
+:::
+::::
+
+
+
+## Methode
+
+:::: {.columns}
+::: {.column width="49%"}
+
+#### Design
+
+* Querschnittliches Beobachtungsdesign
+* Präregistriert (<https://doi.org/10.17605/OSF.IO/UH8AE>)
+
+\
+
+#### Ablauf
+
+* Szenario ("reform message")
+* Measures
+* Informationstext zu Reproduzierbarkeit
+* Measures
+  - ~~Cognitive (Reading) Engagement ($\omega$ = .70)~~
+  - Surface Reading ($\omega$ = .80)
+  - (Practive-Oriented) Elaboration ($\omega$ = .76)
+  
+:::
+::: {.column width="49%"}
+
+<div class="image-container">
+<img src="www/Fig1_7.png" />
+
+
+<div class="tooltip-area area-1">
+<div class="tooltip">I am usually sure to achieve computationally reproducible results when I try hard.</div>
+</div>
+
+<div class="tooltip-area area-2">
+<div class="tooltip">I have to sacrifice too much to ensure computational reproducibility in my work.</div>
+</div>
+
+<div class="tooltip-area area-3">
+<div class="tooltip">How often have you documented and provided the data as well as data analysis in such a way that other researchers can understand and follow the steps to obtain exactly the same results as you?</div>
+</div>
+
+
+<div class="tooltip-area area-4">
+<div class="tooltip">My institution regularly offers training opportunities related to computational reproducibility.</div>
+</div>
+
+
+<div class="tooltip-area area-5">
+<div class="tooltip">I would like to learn something new about computational reproducibility.</div>
+</div>
+
+
+<div class="tooltip-area area-6">
+<div class="tooltip">I'm worried about whether I will understand the content of the text.</div>
+</div>
+
+
+<div class="tooltip-area area-8">
+<div class="tooltip">I must confess that I did not read some passages with great concentration.</div>
+</div>
+
+<div class="tooltip-area area-9">
+<div class="tooltip">I have thought about what personal experiences I have had so far with regard to the content of the text.</div>
+</div>
+
+</div>
+
+:::
+::::
+
+
+
+## Methode
+\
+\
+
+#### Statistische Analysen
+
+* Multivariate Bayesian Regression (brms)
+* Drei Outcomes (Challenge Appraisal, Threat Appraisal, Engagement) simultan modelliert
+* Test gerichteter Hypothesen (siehe Präregistrierung)
+
+
+## Ergebnisse
+
+![](www/Fig1_8a.png){.page-right-m}
+
+:::: {.columns}
+::: {.column width="52%"}
+:::
+::: {.column width="47%"}
+
+* Farbe: Präregistrierte Richtung des Zusammengangs<br /><br />
+* Werte: Standardisierte Regressionsgewichte
+  - `r fontawesome::fa("square-check", fill = "green")` konform zu Hypothese
+  - `r fontawesome::fa("square-xmark", fill = "red")` widerspricht Hypothese<br /><br />
+* Median _R²_ und 95% HDI
+  - threat appraisal: _Md R²_ = 0.15, 95% HDI [.06; .24]
+
+:::
+::::
+
+
+## Ergebnisse
+
+![](www/Fig1_8b.png){.page-right-m}
+
+:::: {.columns}
+::: {.column width="52%"}
+:::
+::: {.column width="47%"}
+
+* Farbe: Präregistrierte Richtung des Zusammengangs<br /><br />
+* Werte: Standardisierte Regressionsgewichte
+  - `r fontawesome::fa("square-check", fill = "green")` konform zu Hypothese
+  - `r fontawesome::fa("square-xmark", fill = "red")` widerspricht Hypothese<br /><br />
+* Median _R²_ und 95% HDI
+  - challenge appraisal: _Md R²_ = 0.11, 95% HDI [.04; .19]
+
+:::
+::::
+
+
+## Ergebnisse
+
+![](www/Fig1_8c.png){.page-right-m}
+
+:::: {.columns}
+::: {.column width="52%"}
+:::
+::: {.column width="47%"}
+
+* Farbe: Präregistrierte Richtung des Zusammengangs<br /><br />
+* Werte: Standardisierte Regressionsgewichte
+  - `r fontawesome::fa("square-check", fill = "green")` konform zu Hypothese
+  - `r fontawesome::fa("square-xmark", fill = "red")` widerspricht Hypothese<br /><br />
+* Median _R²_ und 95% HDI
+  - Surface reading: _Md R²_ = 0.10, 95% HDI [.04; .18]
+  - Elaboration: _Md R²_ = 0.26, 95% HDI [.16; .35]
+
+:::
+::::
+
+
+## Diskussion
+\
+
+* Interpretation von *reform messages* hängt mit Ressourcen zusammen (auch wenn Varianzaufklärung größer sein könnte)
+* Passend zum CAMCC: Erfolgserwartung, Opportunitätskosten und Unterstützung durch Infrastruktur als Prädiktoren
+* positive Gefühle (challenge) sagen günstige Verarbeitung vorher
+* negative Gefühle (threat) sagen Oberflächenverarbeitung vorher
+
+\
+\
+
+#### Limitations
+
+* Unklar warum Unterstützung durch Infrastruktur zu Bedrohungswahrnehmung führen sollte
+* Unklar warum Opportunitätskosten zu Herausforderung führen sollte
+* Operationalisierung von Erfahrung misst kaum interindividuelle Unterschiede
+
+
+# Thank you
+
+![](www/dipf-logo.png){width="20%"}\
+\
+
+**Jürgen Schneider**\
+[ju.schneider\@dipf.de](mailto:ju.schneider@dipf.de){.email}
+
+## References
+
+::: {#refs}
+:::
+
+## Credit
+
+Titel Foto von <a href="https://unsplash.com/de/@tateisimikito?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Jukan Tateisi</a> auf <a href="https://unsplash.com/de/fotos/kleinkind-steht-vor-beigefarbener-betontreppe-bJhT_8nbUA0?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+      
+  
+Icons by Font Awesome CC BY 4.0
+
+## ------------
+
+## Methode
+### Stichprobe
+
+* **Rekrutierung:** Corresponding Authors quantitativ-empirischer Publikationen (2024) im Bereich Education aus Web of Science
+  - Ausgangsdatensatz: *N* = 48,484 Publikationen
+  - Nach Filterung: *N* = 10,960 quantitativ-empirische Studien
+  - Zufallsstichprobe in drei Batches (je 1550, 3100, 3100)
+* **Finale Stichprobe:** *N* = 155 Forschende (a priori Power-Analyse: 90% Power)
+* **Geschlecht:** 73 weiblich, 81 männlich, 1 nicht-binär
+* **Alter:** *M* = 43.01 Jahre (*SD* = 10.69)
+* **Karrierestufe:** 
+  - Doktorand*innen: _n_ = 28 (18.1%)
+  - Postdocs: *n* = 21 (13.5%)
+  - Professur (Junior/Mid/Senior): *n* = 95 (61.3%)
+  - Andere (Research staff/Non-faculty): *n* = 11 (7.1%)
+* **Länder:** 40 Länder vertreten; häufigste: Deutschland (*n* = 19), USA (*n* = 16), Türkei (*n* = 11)
+* **Incentivierung:** Spende von 8,50€ pro Teilnahme an eine von vier Charities
+
+
+## Methode
+```{r}
+#| eval: true
+
+# Länderdaten
+countries <- data$country
+
+# Häufigkeiten zählen (leere Strings entfernen)
+country_counts <- data.frame(iso2c = countries) %>%
+  filter(iso2c != "") %>%
+  count(iso2c) %>%
+  mutate(country_name = countrycode(iso2c, "iso2c", "country.name"),
+         country_name = case_when(country_name == "United Kingdom" ~ "UK",
+                                  country_name == "United States" ~ "USA",
+                                  TRUE ~ country_name))
+
+# Weltkarte laden
+world_map <- map_data("world")
+
+# Ländernamen in den Map-Daten anpassen
+world_map <- world_map %>%
+  left_join(country_counts, by = c("region" = "country_name"))
+
+
+# Alternative: Diskrete Farbskala für bessere Lesbarkeit
+ggplot(world_map, aes(x = long, y = lat, group = group, fill = n)) +
+  geom_polygon(color = "white", size = 0.1) +
+  scale_fill_viridis_c(option = "plasma", 
+                       na.value = "grey90",
+                       name = "Anzahl\nTeilnehmende",
+                       breaks = c(1, 5, 10, 15, 20),
+                       direction = -1) +
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank(),
+    axis.text = element_blank(),
+    axis.title = element_blank(),
+    axis.ticks = element_blank()
+  ) +
+  coord_fixed(1.3)
+```
+
+
+
+
+## Methode
+
+```{r}
+#| eval: true
+
+# Data frame für die Skalenbeschreibung
+items <- data.frame(
+  Bereich = c(
+    "RESOURCES MOTIVATION", "RESOURCES MOTIVATION", 
+    "RESOURCES ABILITY", "RESOURCES ABILITY",
+    "APPRAISAL", "APPRAISAL",
+    "PROCESSING", "PROCESSING"
+  ),
+  Skala = c(
+    "EVM: Expectancy of Success",
+    "EVM: Loss of valued alternatives",
+    "Experience",
+    "Infrastructural resources",
+    "Challenge appraisal",
+    "Threat appraisal",
+    "Cognitive engagement",
+    "Behavioral engagement"
+  ),
+  Beispielitem = c(
+    "I am usually sure to achieve computationally reproducible results when I try hard.",
+    "I have to sacrifice too much to ensure computational reproducibility in my work.",
+    "How often have you documented and provided the data as well as data analysis in such a way that other researchers can understand and follow the steps to obtain exactly the same results as you?",
+    "My institution regularly offers training opportunities related to computational reproducibility.",
+    "I would like to learn something new about computational reproducibility.",
+    "I'm worried about whether I will understand the content of the text.",
+    "I must confess that I did not read some passages with great concentration.",
+    "Would you like to download the information text and further practical suggestions on how you can improve the computational reproducibility of your data analyses?"
+  ),
+  Antwortformat = c(
+    "6-point Likert scale",
+    "6-point Likert scale",
+    "Numeric",
+    "6-point Likert scale",
+    "6-point Likert scale",
+    "6-point Likert scale",
+    "6-point Likert scale",
+    "Yes/No"
+  ),
+  stringsAsFactors = FALSE
+)
+
+# Ausgabe mit kable (Beispiel)
+kbl(items[1:4]) %>%
+    kable_paper("striped") %>%
+    collapse_rows(columns = 1, valign = "top")
+    # pack_rows("RESOURCES PERSON", 1, 3) %>%
+    # pack_rows("RESOURCES INFRASTRUCTURE", 4, 4) %>%
+    # pack_rows("APPRAISAL", 5, 6) %>%
+    # pack_rows("ENGAGEMENT", 7, 8)
+```
+
+
+
+## Ergebnisse
+
+## Theorie
+
+* Forschung entwickelt sich konstant weiter, Forschende müssen immer wieder mit 
+
+
+
+* Reform messages by DFG, ... + genutzter Ausschnitt zeigen
+* Stellt bisherige Praktiken infrage (~3,2 % der Forschenden teilen ihren code, Krähmer et al. 2023)
+* Es zeigt sich allerdings, dass es ein geringes Engagement 
+
+
+* eine der zentralen Quellen für eine fehlende Umsetzung werden fehlende Ressourcen angegeben
+
+-> Einführunge Gregoire
+* Diese determinieren, inwiefern die reform message als eine herausforderung oder threat wahrgenommen wird
+* und sich deshalb mit den Inhalten auseinandersezten
+-> reform fatique vs. erfolgreiche umsetzung
+
+## Development of Open Science
+
+
+\
+\
+\
+
+
+:::: {.columns}
+::: {.column width="47%"}
+Transparency and openness endorsed by **key players**
+
+* DFG (2015, 2019)
+* ERC (2022, 2023)
+* scientific societies (e.g., DGPs, 2021)
+* UNESCO (2022)
+
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="47%"}
+
+Engagement with open science policies
+
+* Risk of Policy alienation (Lilja, 2021)
+* Barrier to Policy compliance are resources (lack of clarity on how to, lack of training) (Dumanis et al., 2023)
+
+Met with an **increase** in the
+
+* perceived importance and benefits (Borycz et al., 2023; Ferguson et al., 2023)
+* implementation of open research practices (Cao et al., 2023; UNESCO, 2023)
+
+:::
+::::
+
+
+
+
+
+
+
+## Development of Open Science
+
+\
+\
+
+A the same time: Many researchers struggle.  
+\
+
+
+:::: {.columns}
+::: {.column width="47%"}
+Comparatively **low rate** of 
+
+* open data (2014-2017: 1%, 2018: 0.32%, 2020: 7.16%)
+* data analysis scripts (2014-2017: 1%)
+
+(Hardwicke et al., 2022; Huff & Bongartz, 2023)
+
+:::
+
+::: {.column width="5%"}
+:::
+
+::: {.column width="47%"}
+Because researchers **lack resources** such as
+
+* adequate training
+* designated project funding
+* infrastructure for data openness
+
+(European Commission, 2023; Goodey et al., 2022; Houtkoop et al., 2018)
+
+:::
+::::
+
+
+
+## CAMCC model
+
+![](www/Fig1_0.png){.page-right-l}
+
+\
+\
+\
+
+Model for 
+
+* predicting **processing** and conceptual change 
+* (among other things) based on **available resources**.
+
+(Gregoire, 2003)
+
+
+::: notes
+:::
+
+
+## CAMCC model
+
+
+![](www/Fig1_0.png){.page-right-l}
+
+\
+\
+\
+
+Focusing on 
+
+* Resources
+* Challenge vs. threat appraisal
+* Processing depth
+
+(Gregoire, 2003)
+
+::: notes
+:::
+
+
+
+## Study
+
+### Methods
+
+\
+\
+
+* Observational (survey) study (power analysis: *N*=120 researchers)
+* Procedure
+   - **vignette** about the need for reproducible data analysis
+   - **measures** (resources, appraisal)
+   - information **text** on "how to reproducible data analysis"
+   - **measures** on cognitive and behavioral engagement
+
+Access the survey under [this link](https://c-t.formr.org).
+
+![](www/Fig1.jpg){.page-right-s}
+
+\
+\
+\
+
+
+
+
+::: notes
+:::
+
+## Study
+
+### Vignette (option 1)
+
+::: {.highlight-grey .bigger}
+
+Think of a current research project in which you are collecting and analyzing quantitative data. Now imagine that the research team assigns you the task of ensuring that your data and results are *computationally reproducible*.
+
+This means that you have to provide the data and analysis code in such a way that another researcher can use it and produce exactly the same results as you. Ideally, the other researcher will not have any additional costs (such as having to buy software) that exceed the internet costs of downloading your research materials. Ideally, you should also take into account that your analyses run on different system requirements (e.g., Windows, Mac) and software versions (e.g., older versions).
+
+:::
+
+## Study
+
+
+### Vignette (option 2) 
+adopted from ERC (2022) ["Open Research Data and Data Management Plans. Information for ERC grantees" (V4.1)](https://erc.europa.eu/sites/default/files/document/file/ERC_info_document-Open_Research_Data_and_Data_Management_Plans.pdf)  
+\
+
+::: {.highlight-grey}
+Imagine you are planning to submit a study to a research funder on the relationship between students' self-directed learning strategies and their academic performance. A survey with quantitative measures will be administered to a sample of university students, collecting data on their use of specific learning strategies, corresponding academic outcomes and demographic variables.  
+  
+The information for grantees from the research funder states that the data analyses should be *computationally reproducible*.  
+"Grantees should allow other scientists to make an assessment, to attempt to reproduce the conclusions derived from the dataset, and potentially reuse the data for further research."  
+  
+This means that you should provide the data and analysis code in such a way that other researchers can use it and produce exactly the same results as you. [Ideally, the other researcher will not have any additional costs (such as having to buy software) that exceed the internet costs of downloading your research materials.] [Ideally, you should also take into account that your analyses run on different system requirements (e.g., Windows, Mac) and software versions (e.g., older versions)].
+:::
+
+\
+
+*The sentences in [square brackets] will be added cumulatively in two further conditions.*
+
+
+## Results 
+
+```{r}
+data <- data %>%
+  mutate(resourcePerson_eos4_R = 7 - resourcePerson_eos4,
+         engage_cognitive01_R = 7 - engage_cognitive01,
+         engage_cognitive04_R = 7 - engage_cognitive04,
+         engage_cognitive06_R = 7 - engage_cognitive06,
+         engage_cognitive08_R = 7 - engage_cognitive08,
+         engage_cognitive09_R = 7 - engage_cognitive09
+         ) %>%
+  dplyr::select(-c(resourcePerson_eos4,
+                   engage_cognitive01,
+                   engage_cognitive04,
+                   engage_cognitive06,
+                   engage_cognitive08,
+                   engage_cognitive09)) %>%
+  mutate(resource_perso_eos = rowMeans(across(contains("resourcePerson_eos")), 
+                                         na.rm = TRUE),
+         resource_perso_lva = rowMeans(across(contains("resourcePerson_va")), 
+                                         na.rm = TRUE),
+         resource_perso_exp = experience,
+         resource_infra = rowMeans(across(contains("resourceInfra_")), 
+                                    na.rm = TRUE),
+         appraisal_challe = rowMeans(across(contains("challenge_")), 
+                                      na.rm = TRUE),
+         appraisal_threat = rowMeans(across(contains("threat_")), 
+                                       na.rm = TRUE),
+         engagement = rowMeans(across(contains("engage_cognitive")), 
+                               na.rm = TRUE))
+```
+
+## Hypothesis 1
+Researchers differ in whether they perceive the demand for transparency in data analysis as a threat or a challenge.  
+  
+__Challenge__
+```{r}
+fit_var_challe <- brm(appraisal_challe ~ 1, # Intercept-only model -> residual 
+                                            # variance = total variance
+                      data = data)
+
+post <- as_draws_df(fit_var_challe) # draw posteriors
+
+quantile(post$sigma^2, # Residual-SD squared = variance
+         probs = c(0.025, 0.5, 0.975)) # Median and CI of variance
+rm(post)
+```
+
+__Threat__
+```{r}
+fit_var_threat <- brm(appraisal_threat ~ 1, # Intercept-only model -> residual 
+                                            # variance = total variance
+                      data = data)
+
+post <- as_draws_df(fit_var_threat) # draw posteriors
+
+quantile(post$sigma^2, # Residual-SD squared = variance
+         probs = c(0.025, 0.5, 0.975)) # Median and CI of variance
+rm(post)
+```
+
+
+```{r}
+data_std <- data %>%
+  mutate(resource_perso_eos = scale(resource_perso_eos),
+         resource_perso_lva = scale(resource_perso_lva),
+         resource_perso_exp = scale(resource_perso_exp),
+         resource_infra = scale(resource_infra),
+         appraisal_challe = scale(appraisal_challe),
+         appraisal_threat = scale(appraisal_threat),
+         engagement = scale(engagement))
+
+model_appaisal <- brms::bf(appraisal_challe ~ resource_perso_eos + 
+                             resource_perso_lva + 
+                             resource_perso_exp + 
+                             resource_infra)
+
+model_threat <- brms::bf(appraisal_threat ~ resource_perso_eos + 
+                           resource_perso_lva + 
+                           resource_perso_exp + 
+                           resource_infra)
+
+model_engagement <- brms::bf(engagement ~ appraisal_challe + 
+                               appraisal_threat + 
+                               resource_perso_eos + 
+                               resource_perso_lva + 
+                               resource_perso_exp + 
+                               resource_infra)
+
+fit_brms <- brms::brm(model_appaisal +
+                        model_threat + 
+                        model_engagement +
+                        set_rescor(FALSE),
+                      data = data_std,
+                      cores = 4,
+                      chains = 4,
+                      iter = 4000)
+
+summary(fit_brms)
+brms::bayes_R2(fit_brms)
+```
+
+## Hypothesis 2a
+Higher levels of personal resources (e.g., stronger expectancy of success, lower perceived loss of valued alternatives), infrastructural support, and prior experience are associated with lower threat appraisals regarding transparency in data analysis.  
+
+__Expectancy of success__
+```{r}
+hypothesis(fit_brms, "appraisalthreat_resource_perso_eos < 0")
+```
+
+__Loss of valued alternatives__
+```{r}
+hypothesis(fit_brms, "appraisalthreat_resource_perso_lva > 0")
+```
+
+__Infrastructural support__
+```{r}
+hypothesis(fit_brms, "appraisalthreat_resource_infra < 0")
+```
+
+__Experience__
+```{r}
+hypothesis(fit_brms, "appraisalthreat_resource_perso_exp < 0")
+```
+
+
+## Hypothesis 2b
+Higher levels of personal resources (e.g., stronger expectancy of success, lower perceived loss of valued alternatives), infrastructural support, and prior experience are associated with stronger challenge appraisals regarding transparency in data analysis.  
+  
+__Expectancy of success__
+```{r}
+hypothesis(fit_brms, "appraisalchalle_resource_perso_eos > 0")
+```
+
+__Loss of valued alternatives__
+```{r}
+hypothesis(fit_brms, "appraisalchalle_resource_perso_lva < 0")
+```
+
+__Infrastructural support__
+```{r}
+hypothesis(fit_brms, "appraisalchalle_resource_infra > 0")
+```
+
+__Experience__
+```{r}
+hypothesis(fit_brms, "appraisalchalle_resource_perso_exp > 0")
+```
+
+
+## Hypothesis 3a
+Stronger threat appraisals of transparency in data analysis are associated with lower cognitive and behavioral engagement with the topic.  
+  
+__Cognitive engagement__
+```{r}
+hypothesis(fit_brms, "engagement_appraisal_threat < 0")
+```
+
+
+__Behavioral engagement__
+```{r}
+bf_cor_threat <- correlationBF(data$appraisal_threat, data$engageBehavioral)
+samples_threat <- posterior(bf_cor_threat, iterations = 10000)
+summary(bf_cor_threat)
+summary(samples_threat)
+```
+
+
+## Hypothesis 3b
+Stronger challenge appraisals of transparency in data analysis are associated with higher cognitive and behavioral engagement with the topic.  
+  
+__Cognitive engagement__
+```{r}
+hypothesis(fit_brms, "engagement_appraisal_challe > 0")
+```
+
+__Behavioral engagement__
+```{r}
+bf_cor_challe <- correlationBF(data$appraisal_challe, data$engageBehavioral)
+samples_challe <- posterior(bf_cor_challe, iterations = 10000)
+summary(bf_cor_challe)
+summary(samples_challe)
+```
+
+
+## Ergebnisse
+
+![](www/Fig1_6b.png){.page-right-m}
+
+:::: {.columns}
+::: {.column width="52%"}
+:::
+::: {.column width="47%"}
+
+* Farbe: Präregistrierte Richtung des Zusammengangs<br /><br />
+* Werte: Standardisierte Regressionsgewichte
+  - `r fontawesome::fa("square-check", fill = "green")` konform zu Hypothese
+  - `r fontawesome::fa("square-xmark", fill = "red")` widerspricht Hypothese<br /><br />
+* Alle Pfade BF > 5 (präregistrierte Inferenzschwelle)<br /><br />
+* Median _R²_ und 95% HDI
+  - challenge appraisal: _Md R²_ = 0.11, 95% HDI [.036; .19]
+  - threat appraisal: _Md R²_ = 0.15, 95% HDI [.06; .24]
+  - reading engagement: _Md R²_ = 0.19, 95% HDI [.10; .28]
+
+:::
+::::
